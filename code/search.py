@@ -24,13 +24,11 @@ def check(SL,CL,U,b1,b2):
             return False
     return True
 
-bias = [-2,-1,1,2]
-options = list(product(product(range(-2,3),repeat=9),bias,bias))
-print(len(options))
-
 YL = []
 
-for i,D in enumerate(options):
+print('comenzando iteraciones...')
+
+for i,D in enumerate(product(range(-2,3),repeat=11)):
     if i % 10000 == 0:
         sys.stdout.write(str(len(YL))+' so far ('+str(i)+'/50M)\r')
     U = np.array(D[:9]).reshape((3,3))
