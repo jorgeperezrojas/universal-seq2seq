@@ -24,17 +24,32 @@ def check(SL,CL,U,b1,b2):
             return False
     return True
 
+def check_num(SL,CL,U,b1,b2):
+    for i in range(len(SL)-1):
+        change_map = utils.change_map(SL[i],U,b1,b2)
+        if not (change_map == CL[i+1]).all():
+            return i
+    return len(SL)
+
 YL = []
 
 print('comenzando iteraciones...')
+M = 0
+j = 0
+ind_M = -1
+dat_M = None
 
 for i,D in enumerate(product(range(-2,3),repeat=11)):
     if i % 10000 == 0:
-        sys.stdout.write(str(len(YL))+' so far ('+str(i)+'/50M)\r')
+        sys.stdout.write(str(len(YL))+' so far, max '+M+' ('+str(i)+'/50M)\r')
     U = np.array(D[:9]).reshape((3,3))
     b1 = D[9]
     b2 = D[10]
-    if check(SL,CL,U,b1,b2):
+    j = check_num(SL,CL,U,b1,b2)
+    if j > M:
+        M = j
+        dat_M = (i,j,U,b1,b2)
+    if check_num(SL,CL,U,b1,b2) == len(SL):
         YL.append((i,U,b1,b2))
 
 print(YL[0])
